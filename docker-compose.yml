@@ -4,14 +4,11 @@ services:
   caddy:
     image: caddy:2
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
+    network_mode: "host"   # This is important
     volumes:
       - /etc/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - /var/log/caddy:/var/log/caddy
-    network_mode: "host"  # This allows Caddy to access localhost services
 
   nsite:
     image: ghcr.io/hzrd149/nsite-ts:master
