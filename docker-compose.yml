@@ -23,9 +23,7 @@ services:
         target: /var/cache/nginx
         tmpfs:
           size: 100M
-    ports:
-      - 8080:80
-      - 3000:3000 
+    # Remove the ports section since Caddy will handle the routing
     networks:
       - web
 
@@ -33,7 +31,6 @@ networks:
   web:
     external: true
 
-# Add this volumes section
 volumes:
   caddy_data:
     driver: local
