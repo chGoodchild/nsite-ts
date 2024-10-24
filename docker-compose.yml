@@ -10,8 +10,8 @@ services:
     volumes:
       - /etc/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
-    networks:
-      - web
+      - /var/log/caddy:/var/log/caddy
+    network_mode: "host"  # This allows Caddy to access localhost services
 
   nsite:
     image: ghcr.io/hzrd149/nsite-ts:master
@@ -23,7 +23,6 @@ services:
         target: /var/cache/nginx
         tmpfs:
           size: 100M
-    # Remove the ports section since Caddy will handle the routing
     networks:
       - web
 

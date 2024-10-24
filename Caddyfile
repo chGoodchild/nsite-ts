@@ -1,37 +1,28 @@
 {
     # Global options block at the top
     admin off
-    # Comment out staging during debugging
-    # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
 # Main domain for nostr relay
 orangesync.tech {
-    reverse_proxy 127.0.0.1:8080  # Point back to your nostr relay
+    reverse_proxy localhost:8080  # This one stays localhost because it's on the host
     tls support@orangesync.tech
-    log {
-        output file /var/log/caddy/nostr.log {
-            roll_size 1gb
-            roll_keep 1
-            roll_keep_for 720h
-        }
-    }
 }
 
 # Main nsite domain
 nsite.orangesync.tech {
-    reverse_proxy nsite:80
+    reverse_proxy http://nsite:80
     tls support@orangesync.tech
 }
 
 # Wildcard for nsite subdomains
 *.nsite.orangesync.tech {
-    reverse_proxy nsite:3000
+    reverse_proxy http://nsite:3000
     tls support@orangesync.tech
 }
 
 # Bostr subdomain
 bostr.orangesync.tech {
-    reverse_proxy localhost:8083
+    reverse_proxy localhost:8083  # This one stays localhost because it's on the host
     tls support@orangesync.tech
 }
