@@ -1,27 +1,26 @@
 {
     # Global options block at the top
     admin off
-    # Comment out staging during debugging to see real certificates
+    # Comment out staging during debugging
     # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
 # Main domain for nostr relay
 orangesync.tech {
-    reverse_proxy nsite:80
+    reverse_proxy 127.0.0.1:8080  # Point back to your nostr relay
     tls support@orangesync.tech
     log {
         output file /var/log/caddy/nostr.log {
             roll_size 1gb
             roll_keep 1
-            roll_ keep_for 720h
+            roll_keep_for 720h
         }
     }
 }
 
-# Bostr subdomain
-bostr.orangesync.tech {
-    # Change localhost to the actual service name if it's running in Docker
-    reverse_proxy bostr:8083  # If this is running on the host, you'll need a different setup
+# Main nsite domain
+nsite.orangesync.tech {
+    reverse_proxy nsite:80
     tls support@orangesync.tech
 }
 
@@ -31,8 +30,8 @@ bostr.orangesync.tech {
     tls support@orangesync.tech
 }
 
-# Main nsite domain
-nsite.orangesync.tech {
-    reverse_proxy nsite:3000
+# Bostr subdomain
+bostr.orangesync.tech {
+    reverse_proxy localhost:8083
     tls support@orangesync.tech
 }
