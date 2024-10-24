@@ -1,0 +1,3 @@
+*.nsite.orangesync.tech {
+    reverse_proxy nsite:3000
+}

@@ -1,8 +1,19 @@
 version: "3.7"
 
 services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    networks:
+      - web
+
   nsite:
-    build: .
     image: ghcr.io/hzrd149/nsite-ts:master
     environment:
       LOOKUP_RELAYS: wss://user.kindpag.es,wss://purplepag.es
@@ -15,3 +26,8 @@ services:
     ports:
       - 8080:80
       - 3000:3000
+
+
+networks:
+  web:
+    external: true
